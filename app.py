@@ -13,7 +13,6 @@ app = Flask(__name__)
 def index():
     result = None
 
-    # si el usuario envía el formulario, calcular la predicción puntual
     if request.method == 'POST':
         seguros = int(request.form['seguros'])
         # escalar, predecir y desescalar
@@ -22,8 +21,7 @@ def index():
         pred_original = sc_y.inverse_transform(pred_sc) * 1000
         result        = round(pred_original[0][0], 2)
 
-    # preparar datos para el gráfico: predicción vs número de seguros
-    # aquí usamos un rango de 0 a 10; ajústalo según tu dominio
+
     seguros_range = list(range(0, 11))
     seguros_sc_all    = sc_x.transform(np.array(seguros_range).reshape(-1, 1))
     preds_sc_all      = model.predict(seguros_sc_all)
